@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ShopEasy - Register</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="offers.html">Offers</a>
+        <a href="register.html" class="active">Register</a>
+        <a href="contact.html">Contact</a>
+    </div>
+</nav>
+
+<div class="floating-patterns">
+    <div class="pattern pattern1">🛒</div>
+    <div class="pattern pattern2">💻</div>
+    <div class="pattern pattern3">📱</div>
+    <div class="pattern pattern4">🎧</div>
+    <div class="pattern pattern6" style="display: none;">📷</div>
+    <div class="pattern pattern7" style="display: none;">🎥</div>
+    <div class="pattern pattern8" style="display: none;">🎤</div>
+    <div class="pattern pattern9" style="display: none;">💲</div>
+    <div class="pattern pattern10" style="display: none;">💲</div>
+</div>
+
+<section>
+    <div class="section-inner">
+        <h2 class="section-title">User Registration</h2>
+        <p class="section-sub">
+            Please fill in the form below to create your account.
+        </p>
+
+        <div class="card" style="max-width: 380px;">
+            <form action="products.html" method="post">
+
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" required pattern="[A-Za-z ]+" title="Only letters and spaces allowed">
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" required pattern="[A-Za-z ]+" title="Only letters and spaces allowed">
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required title="Please enter a valid email address">
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" required title="Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character.">
+                </div>
+
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" min="1" max="120" step="1" required title="Please enter a valid age between 1 and 120">
+                </div>
+
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select required>
+                        <option value="">Select</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Prefer not to say</option>
+                    </select>
+                </div>
+
+                <button class="btn">Submit Registration</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer>
+    © 2026 ShopEasy. All Rights Reserved.
+</footer>
+
+</body>
+</html>
