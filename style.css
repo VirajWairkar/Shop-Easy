@@ -29,6 +29,8 @@ body {
     overflow-x: hidden;
     line-height: 1.6;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 a {
@@ -370,6 +372,7 @@ footer {
     text-align: center;
     background: #001122;
     border-top: 3px solid rgba(224,255,255,0.4);
+    margin-top: auto;
 }
 
 /* =====================
