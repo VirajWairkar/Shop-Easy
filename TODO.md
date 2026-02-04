@@ -1,8 +1,5 @@
-# TODO: Add Search Bar to All Pages
-
-- [ ] Edit index.html: Add search bar div after <body>
-- [ ] Edit products.html: Add search bar div after <body>
-- [ ] Edit offers.html: Add search bar div after <body>
-- [ ] Edit register.html: Add search bar div after <body>
-- [ ] Edit contact.html: Add search bar div after <body>
-- [ ] Edit style.css: Add CSS for search bar, form, input, button
+- [x] Remove floating-patterns div from index.html
+- [x] Remove floating-patterns div from offers.html
+- [x] Remove floating-patterns div from about.html
+- [x] Remove floating-patterns div from contact.html
+- [x] Remove floating-patterns div from register.html
