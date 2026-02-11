@@ -13,14 +13,24 @@
 
                 <defs>
                     <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#00d4ff"/>
-                        <stop offset="100%" stop-color="#e0ffff"/>
+                        <stop offset="0%" stop-color="#ffffff"/>
+                        <stop offset="100%" stop-color="#ffffff"/>
                     </linearGradient>
 
                     <filter id="glow">
                         <feGaussianBlur stdDeviation="4" result="blur"/>
                         <feMerge>
                             <feMergeNode in="blur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+
+                    <filter id="blueGlow">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                        <feFlood flood-color="#00d4ff" flood-opacity="0.7" result="color"/>
+                        <feComposite in="color" in2="coloredBlur" operator="in" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
                             <feMergeNode in="SourceGraphic"/>
                         </feMerge>
                     </filter>
@@ -32,12 +42,12 @@
                     <!-- Bag (adjusted height + position) -->
                     <rect x="40" y="10" width="85" height="75" rx="16"
                         fill="none"
-                        stroke="#00d4ff"
+                        stroke="#ffffff"
                         stroke-width="4"
                         filter="url(#glow)"/>
 
                     <path d="M60 10 Q82 -15 104 10"
-                        stroke="#e0ffff"
+                        stroke="#ffffff"
                         stroke-width="4"
                         fill="none"
                         filter="url(#glow)"/>
@@ -49,6 +59,8 @@
                         font-style="italic"
                         dominant-baseline="middle"
                         fill="url(#textGradient)"
+                        stroke="#00d4ff"
+                        stroke-width="1"
                         filter="url(#glow)"
                         font-family="Segoe UI, Arial">
                         ShopEasy

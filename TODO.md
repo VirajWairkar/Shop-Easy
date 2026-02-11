@@ -1,5 +1,4 @@
-- [x] Remove floating-patterns div from index.html
-- [x] Remove floating-patterns div from offers.html
-- [x] Remove floating-patterns div from about.html
-- [x] Remove floating-patterns div from contact.html
-- [x] Remove floating-patterns div from register.html
+- [x] Change hero logo SVG colors to white for better contrast
+- [x] Change nav logo SVG colors to white for better contrast
+- [x] Test the changes by opening index.html
+- [ ] Add black border to hero title text
