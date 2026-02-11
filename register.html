@@ -72,36 +72,36 @@
         </p>
 
         <div class="card" style="max-width: 380px;">
-            <form action="products.html" method="post">
+            <form id="registerForm" action="products.html" method="post">
 
                 <div class="form-group">
                     <label>First Name</label>
-                    <input type="text" required pattern="[A-Za-z ]+" title="Only letters and spaces allowed">
+                    <input type="text" id="firstName" required>
                 </div>
 
                 <div class="form-group">
                     <label>Last Name</label>
-                    <input type="text" required pattern="[A-Za-z ]+" title="Only letters and spaces allowed">
+                    <input type="text" id="lastName" required>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" required title="Please enter a valid email address">
+                    <input type="email" id="email" required>
                 </div>
 
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}" required title="Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character.">
+                    <input type="password" id="password" required>
                 </div>
 
                 <div class="form-group">
                     <label>Age</label>
-                    <input type="number" min="1" max="120" step="1" required title="Please enter a valid age between 1 and 120">
+                    <input type="number" id="age" required>
                 </div>
 
                 <div class="form-group">
                     <label>Gender</label>
-                    <select required>
+                    <select id="gender" required>
                         <option value="">Select</option>
                         <option>Male</option>
                         <option>Female</option>
@@ -109,11 +109,70 @@
                     </select>
                 </div>
 
-                <button class="btn">Submit Registration</button>
+                <button class="btn" type="submit">Submit Registration</button>
             </form>
         </div>
     </div>
 </section>
+
+<footer>
+    © 2026 ShopEasy. All Rights Reserved.
+</footer>
+
+<!-- JavaScript Validation -->
+<script>
+document.getElementById("registerForm").addEventListener("submit", function(event) {
+
+    let firstName = document.getElementById("firstName").value.trim();
+    let lastName = document.getElementById("lastName").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value;
+    let age = document.getElementById("age").value;
+    let gender = document.getElementById("gender").value;
+
+    let namePattern = /^[A-Za-z ]+$/;
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+    if (!namePattern.test(firstName)) {
+        alert("First name should contain only letters and spaces.");
+        event.preventDefault();
+        return;
+    }
+
+    if (!namePattern.test(lastName)) {
+        alert("Last name should contain only letters and spaces.");
+        event.preventDefault();
+        return;
+    }
+
+    if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address.");
+        event.preventDefault();
+        return;
+    }
+
+    if (!passwordPattern.test(password)) {
+        alert("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.");
+        event.preventDefault();
+        return;
+    }
+
+    if (age < 1 || age > 120) {
+        alert("Please enter valid age between 1 and 120.");
+        event.preventDefault();
+        return;
+    }
+
+    if (gender === "") {
+        alert("Please select your gender.");
+        event.preventDefault();
+        return;
+    }
+
+    alert("Registration Successful!");
+});
+</script>
 
 <footer>
     © 2026 ShopEasy. All Rights Reserved.
