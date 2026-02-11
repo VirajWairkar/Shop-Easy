@@ -8,7 +8,53 @@
 
 <nav class="nav">
     <div class="nav-inner">
-        <a href="index.html" class="nav-logo">🛍️ShopEasy</a>
+        <a href="index.html" class="nav-logo">
+            <svg class="logo-svg" viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg">
+
+                <defs>
+                    <!-- Gradient -->
+                    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#00d4ff"/>
+                        <stop offset="100%" stop-color="#e0ffff"/>
+                    </linearGradient>
+
+                    <!-- Glow Effect -->
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                <!-- Neon Shopping Bag -->
+                <rect x="10" y="30" width="60" height="50" rx="12"
+                    fill="none"
+                    stroke="#00d4ff"
+                    stroke-width="4"
+                    filter="url(#glow)"/>
+
+                <path d="M25 30 Q40 5 55 30"
+                    stroke="#e0ffff"
+                    stroke-width="4"
+                    fill="none"
+                    filter="url(#glow)"/>
+
+                <!-- Brand Text -->
+                <text x="90" y="70"
+                    font-size="55"
+                    font-weight="900"
+                    font-style="italic"
+                    fill="url(#textGradient)"
+                    filter="url(#glow)"
+                    font-family="Segoe UI, Arial">
+                    ShopEasy
+                </text>
+
+            </svg>
+        </a>
+
         <a href="index.html">Home</a>
         <a href="products.html">Products</a>
         <a href="offers.html">Offers</a>

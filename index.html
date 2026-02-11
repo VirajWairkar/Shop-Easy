@@ -8,7 +8,59 @@
 
 <header class="hero">
     <div>
-        <h1 class="hero-title">🛍️ ShopEasy</h1>
+        <div class="hero-logo">
+            <svg class="hero-logo-svg" viewBox="0 0 600 150" xmlns="http://www.w3.org/2000/svg">
+
+                <defs>
+                    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#00d4ff"/>
+                        <stop offset="100%" stop-color="#e0ffff"/>
+                    </linearGradient>
+
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                        <feMerge>
+                            <feMergeNode in="blur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                <!-- Align everything properly -->
+                <g transform="translate(0,25)">
+
+                    <!-- Bag (adjusted height + position) -->
+                    <rect x="40" y="10" width="85" height="75" rx="16"
+                        fill="none"
+                        stroke="#00d4ff"
+                        stroke-width="4"
+                        filter="url(#glow)"/>
+
+                    <path d="M60 10 Q82 -15 104 10"
+                        stroke="#e0ffff"
+                        stroke-width="4"
+                        fill="none"
+                        filter="url(#glow)"/>
+
+                    <!-- Text (perfect baseline alignment) -->
+                    <text x="150" y="60"
+                        font-size="85"
+                        font-weight="900"
+                        font-style="italic"
+                        dominant-baseline="middle"
+                        fill="url(#textGradient)"
+                        filter="url(#glow)"
+                        font-family="Segoe UI, Arial">
+                        ShopEasy
+                    </text>
+
+                </g>
+
+            </svg>
+
+
+        </div>
+
         <p class="hero-sub">
             Your ultimate online shopping destination for electronics and gadgets.
         </p>
@@ -23,7 +75,53 @@
 
 <nav class="nav">
     <div class="nav-inner">
-        <a href="index.html" class="active">Home</a>
+        <a href="index.html" class="nav-logo">
+            <svg class="logo-svg" viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg">
+
+                <defs>
+                    <!-- Gradient -->
+                    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#00d4ff"/>
+                        <stop offset="100%" stop-color="#e0ffff"/>
+                    </linearGradient>
+
+                    <!-- Glow Effect -->
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                <!-- Neon Shopping Bag -->
+                <rect x="10" y="30" width="60" height="50" rx="12"
+                    fill="none"
+                    stroke="#00d4ff"
+                    stroke-width="4"
+                    filter="url(#glow)"/>
+
+                <path d="M25 30 Q40 5 55 30"
+                    stroke="#e0ffff"
+                    stroke-width="4"
+                    fill="none"
+                    filter="url(#glow)"/>
+
+                <!-- Brand Text -->
+                <text x="90" y="70"
+                    font-size="55"
+                    font-weight="900"
+                    font-style="italic"
+                    fill="url(#textGradient)"
+                    filter="url(#glow)"
+                    font-family="Segoe UI, Arial">
+                    ShopEasy
+                </text>
+
+            </svg>
+        </a>
+
         <a href="products.html">Products</a>
         <a href="offers.html">Offers</a>
         <a href="about.html">About Us</a>
