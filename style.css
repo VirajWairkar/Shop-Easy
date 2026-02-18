@@ -477,3 +477,43 @@ footer {
     max-width: 100%;
     height: auto;
 }
+
+/* =====================
+   GEOLOCATION (Contact Page Map)
+   ===================== */
+.geo-actions{
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 18px 0 14px;
+}
+
+.geo-output{
+    margin: 10px auto 18px;
+    padding: 16px 18px;
+    max-width: 900px;
+    border-radius: 18px;
+    border: 2px solid rgba(224,255,255,0.55);
+    background: rgba(0,0,0,0.18);
+    backdrop-filter: blur(10px);
+    font-weight: 700;
+    line-height: 1.7;
+}
+
+#map{
+    width: 100%;
+    max-width: 1100px;
+    height: 520px;
+    margin: 0 auto;
+    border-radius: 26px;
+    border: 2px solid rgba(224,255,255,0.55);
+    overflow: hidden;
+    box-shadow: var(--box-shadow-heavy);
+}
+
+/* Custom SVG marker wrapper (Leaflet) */
+.custom-marker{
+    background: transparent;
+    border: none;
+}

@@ -24,6 +24,7 @@
       .shopeasy-logo:hover .bolt { filter: drop-shadow(0 4px 8px rgba(0,0,0,.18)); transform: translateY(-1px); }
       .shopeasy-logo .bolt { transition: .2s ease; transform-origin: center; }
     </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
 </head>
 <body>
 
@@ -87,7 +88,66 @@
     </div>
 </section>
 
+
+<section>
+  <div class="section-inner">
+    <h2 class="section-title">Find Us on Map</h2>
+    <p class="section-sub">Use your current location to see where you are.</p>
+
+    <div class="geo-actions">
+      <button class="btn-primary" onclick="getLocation()">Use My Location</button>
+    </div>
+
+    <div id="demo" class="geo-output">Click the button to fetch your coordinates.</div>
+    <div id="map"></div>
+  </div>
+</section>
+
 <footer>© 2026 ShopEasy. All Rights Reserved.</footer>
 
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+const x=document.getElementById("demo");
+const map=L.map("map").setView([19.0760,72.8777],12);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19}).addTo(map);
+let marker=null;
+const customIcon=L.divIcon({
+ className:"custom-marker",
+ html:`<svg width="50" height="50" viewBox="0 0 100 100">
+ <circle cx="50" cy="50" r="40" fill="#007BFF"/>
+ <circle cx="50" cy="50" r="20" fill="white"/>
+ <circle cx="50" cy="50" r="8" fill="black"/></svg>`,
+ iconSize:[50,50],iconAnchor:[25,25]
+});
+function getLocation(){
+ if(navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(success, error, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+ } else x.innerHTML="Geolocation not supported.";
+}
+function success(p){
+ const lat=p.coords.latitude,lon=p.coords.longitude;
+ x.innerHTML="Latitude: "+lat.toFixed(6)+"<br>Longitude: "+lon.toFixed(6);
+ if(marker) map.removeLayer(marker);
+ marker=L.marker([lat,lon],{icon:customIcon}).addTo(map).bindPopup("Welcome to my current coordinates!").openPopup();
+ map.setView([lat,lon],16);
+}
+function error(error) {
+  switch(error.code) {
+    case error.PERMISSION_DENIED:
+      x.innerHTML = "User denied the request for Geolocation.";
+      break;
+    case error.POSITION_UNAVAILABLE:
+      x.innerHTML = "Location information is unavailable.";
+      break;
+    case error.TIMEOUT:
+      x.innerHTML = "The request to get user location timed out.";
+      break;
+    default:
+      x.innerHTML = "An unknown error occurred.";
+      break;
+  }
+}
+</script>
 </body>
 </html>
