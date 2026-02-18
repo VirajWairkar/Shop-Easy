@@ -517,3 +517,21 @@ footer {
     background: transparent;
     border: none;
 }
+
+/* =====================
+   Leaflet vs Navbar Z-INDEX FIX
+   (Prevents map controls appearing on navbar)
+   ===================== */
+.nav{
+    z-index: 9999; /* higher than Leaflet controls */
+}
+
+#map{
+    position: relative;
+    z-index: 1;
+}
+
+/* Keep Leaflet controls below navbar just in case */
+.leaflet-control-container{
+    z-index: 500;
+}
