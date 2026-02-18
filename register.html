@@ -23,6 +23,42 @@
 
       .shopeasy-logo:hover .bolt { filter: drop-shadow(0 4px 8px rgba(0,0,0,.18)); transform: translateY(-1px); }
       .shopeasy-logo .bolt { transition: .2s ease; transform-origin: center; }
+
+      .error {
+    color: red;
+    font-size: 13px;
+    display: block;
+    margin-top: 4px;
+}
+
+input, select {
+    border: 2px solid #ccc;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+input.valid, select.valid {
+    border-color: green;
+}
+
+input.invalid, select.invalid {
+    border-color: red;
+}
+
+.strength-bar {
+    height: 6px;
+    background: #ddd;
+    margin-top: 6px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#strengthFill {
+    height: 100%;
+    width: 0%;
+    transition: 0.3s;
+}
+
     </style>
 </head>
 <body>
@@ -72,107 +108,191 @@
         </p>
 
         <div class="card" style="max-width: 380px;">
-            <form id="registerForm" action="products.html" method="post">
+<form id="registerForm" action="products.html" method="post">
 
-                <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" id="firstName" required>
-                </div>
+    <div class="form-group">
+        <label>First Name</label>
+        <input type="text" id="firstName">
+        <span class="error" id="firstNameError"></span>
+    </div>
 
-                <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="text" id="lastName" required>
-                </div>
+    <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" id="lastName">
+        <span class="error" id="lastNameError"></span>
+    </div>
 
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="email" required>
-                </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email">
+        <span class="error" id="emailError"></span>
+    </div>
 
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="password" required>
-                </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password">
 
-                <div class="form-group">
-                    <label>Age</label>
-                    <input type="number" id="age" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Gender</label>
-                    <select id="gender" required>
-                        <option value="">Select</option>
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Prefer not to say</option>
-                    </select>
-                </div>
-
-                <button class="btn" type="submit">Submit Registration</button>
-            </form>
+        <div class="strength-bar">
+            <div id="strengthFill"></div>
         </div>
+
+        <span class="error" id="passwordError"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Age</label>
+        <input type="number" id="age">
+        <span class="error" id="ageError"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Gender</label>
+        <select id="gender">
+            <option value="">Select</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Prefer not to say</option>
+        </select>
+        <span class="error" id="genderError"></span>
+    </div>
+
+    <button class="btn" type="submit" id="submitBtn" disabled>
+        Submit Registration
+    </button>
+
+</form>
+</div>
+
     </div>
 </section>
 
-<footer>
-    © 2026 ShopEasy. All Rights Reserved.
-</footer>
 
 <!-- JavaScript Validation -->
 <script>
-document.getElementById("registerForm").addEventListener("submit", function(event) {
 
-    let firstName = document.getElementById("firstName").value.trim();
-    let lastName = document.getElementById("lastName").value.trim();
-    let email = document.getElementById("email").value.trim();
-    let password = document.getElementById("password").value;
-    let age = document.getElementById("age").value;
-    let gender = document.getElementById("gender").value;
+const firstName = document.getElementById("firstName");
+const lastName = document.getElementById("lastName");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const age = document.getElementById("age");
+const gender = document.getElementById("gender");
+const submitBtn = document.getElementById("submitBtn");
+const strengthFill = document.getElementById("strengthFill");
 
-    let namePattern = /^[A-Za-z ]+$/;
-    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-    let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+const namePattern = /^[A-Za-z ]+$/;
+const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
-    if (!namePattern.test(firstName)) {
-        alert("First name should contain only letters and spaces.");
-        event.preventDefault();
-        return;
+function validateField(input, condition, errorElement, message) {
+    if (!condition) {
+        input.classList.add("invalid");
+        input.classList.remove("valid");
+        errorElement.textContent = message;
+        return false;
+    } else {
+        input.classList.remove("invalid");
+        input.classList.add("valid");
+        errorElement.textContent = "";
+        return true;
+    }
+}
+
+function checkPasswordStrength(value) {
+    let strength = 0;
+
+    if (value.length >= 8) strength++;
+    if (/[A-Z]/.test(value)) strength++;
+    if (/[a-z]/.test(value)) strength++;
+    if (/[0-9]/.test(value)) strength++;
+    if (/[@$!%*?&]/.test(value)) strength++;
+
+    if (strength <= 2) {
+        strengthFill.style.width = "30%";
+        strengthFill.style.background = "red";
+    } else if (strength <= 4) {
+        strengthFill.style.width = "60%";
+        strengthFill.style.background = "orange";
+    } else {
+        strengthFill.style.width = "100%";
+        strengthFill.style.background = "green";
     }
 
-    if (!namePattern.test(lastName)) {
-        alert("Last name should contain only letters and spaces.");
-        event.preventDefault();
-        return;
-    }
+    return strength >= 4;
+}
 
-    if (!emailPattern.test(email)) {
-        alert("Please enter a valid email address.");
-        event.preventDefault();
-        return;
-    }
+function validateForm() {
 
-    if (!passwordPattern.test(password)) {
-        alert("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.");
-        event.preventDefault();
-        return;
-    }
+    const validFirst = validateField(
+        firstName,
+        namePattern.test(firstName.value.trim()),
+        document.getElementById("firstNameError"),
+        "Only letters allowed"
+    );
 
-    if (age < 1 || age > 120) {
-        alert("Please enter valid age between 1 and 120.");
-        event.preventDefault();
-        return;
-    }
+    const validLast = validateField(
+        lastName,
+        namePattern.test(lastName.value.trim()),
+        document.getElementById("lastNameError"),
+        "Only letters allowed"
+    );
 
-    if (gender === "") {
-        alert("Please select your gender.");
-        event.preventDefault();
-        return;
-    }
+    const validEmail = validateField(
+        email,
+        emailPattern.test(email.value.trim()),
+        document.getElementById("emailError"),
+        "Invalid email format"
+    );
 
-    alert("Registration Successful!");
+    const validPassword = validateField(
+        password,
+        checkPasswordStrength(password.value),
+        document.getElementById("passwordError"),
+        "Password too weak"
+    );
+
+    const validAge = validateField(
+        age,
+        Number(age.value) >= 1 && Number(age.value) <= 120,
+        document.getElementById("ageError"),
+        "Age must be between 1 and 120"
+    );
+
+    const validGender = validateField(
+        gender,
+        gender.value !== "",
+        document.getElementById("genderError"),
+        "Select your gender"
+    );
+
+    submitBtn.disabled = !(validFirst && validLast && validEmail && validPassword && validAge && validGender);
+}
+
+/* Block numbers in name */
+firstName.addEventListener("keypress", function(e) {
+    if (!/[A-Za-z ]/.test(e.key)) e.preventDefault();
 });
+
+lastName.addEventListener("keypress", function(e) {
+    if (!/[A-Za-z ]/.test(e.key)) e.preventDefault();
+});
+
+/* Live validation */
+firstName.addEventListener("input", validateForm);
+lastName.addEventListener("input", validateForm);
+email.addEventListener("input", validateForm);
+password.addEventListener("input", validateForm);
+age.addEventListener("input", validateForm);
+gender.addEventListener("change", validateForm);
+
+document.getElementById("registerForm").addEventListener("submit", function(e) {
+    if (submitBtn.disabled) {
+        e.preventDefault();
+    }
+});
+
+validateForm();
+
 </script>
+
 
 <footer>
     © 2026 ShopEasy. All Rights Reserved.
