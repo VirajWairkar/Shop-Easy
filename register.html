@@ -171,127 +171,135 @@ input.invalid, select.invalid {
 <script>
 
 const firstName = document.getElementById("firstName");
-const lastName = document.getElementById("lastName");
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const age = document.getElementById("age");
-const gender = document.getElementById("gender");
+const lastName  = document.getElementById("lastName");
+const email     = document.getElementById("email");
+const password  = document.getElementById("password");
+const age       = document.getElementById("age");
+const gender    = document.getElementById("gender");
 const submitBtn = document.getElementById("submitBtn");
 const strengthFill = document.getElementById("strengthFill");
 
-const namePattern = /^[A-Za-z ]+$/;
-const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+const namePattern  = /^[A-Za-z ]+$/;
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function validateField(input, condition, errorElement, message) {
-    if (!condition) {
-        input.classList.add("invalid");
-        input.classList.remove("valid");
-        errorElement.textContent = message;
-        return false;
-    } else {
-        input.classList.remove("invalid");
-        input.classList.add("valid");
-        errorElement.textContent = "";
-        return true;
-    }
+/* ===== Helper Functions ===== */
+
+function setValid(input, errorEl){
+    input.classList.remove("invalid");
+    input.classList.add("valid");
+    errorEl.textContent = "";
 }
 
-function checkPasswordStrength(value) {
-    let strength = 0;
+function setInvalid(input, errorEl, message){
+    input.classList.remove("valid");
+    input.classList.add("invalid");
+    errorEl.textContent = message;
+}
 
-    if (value.length >= 8) strength++;
-    if (/[A-Z]/.test(value)) strength++;
-    if (/[a-z]/.test(value)) strength++;
-    if (/[0-9]/.test(value)) strength++;
-    if (/[@$!%*?&]/.test(value)) strength++;
+/* ===== Password Strength ===== */
 
-    if (strength <= 2) {
+function checkPasswordStrength(value){
+
+    let score = 0;
+
+    if(value.length >= 8) score++;
+    if(/[A-Z]/.test(value)) score++;
+    if(/[a-z]/.test(value)) score++;
+    if(/[0-9]/.test(value)) score++;
+    if(/[@$!%*?&]/.test(value)) score++;
+
+    if(score <= 2){
         strengthFill.style.width = "30%";
         strengthFill.style.background = "red";
-    } else if (strength <= 4) {
+    }
+    else if(score <= 4){
         strengthFill.style.width = "60%";
         strengthFill.style.background = "orange";
-    } else {
+    }
+    else{
         strengthFill.style.width = "100%";
         strengthFill.style.background = "green";
     }
 
-    return strength >= 4;
+    return score >= 4;
 }
 
-function validateForm() {
+/* ===== Main Validation ===== */
 
-    const validFirst = validateField(
-        firstName,
-        namePattern.test(firstName.value.trim()),
-        document.getElementById("firstNameError"),
-        "Only letters allowed"
-    );
+function validateForm(){
 
-    const validLast = validateField(
-        lastName,
-        namePattern.test(lastName.value.trim()),
-        document.getElementById("lastNameError"),
-        "Only letters allowed"
-    );
+    let valid = true;
 
-    const validEmail = validateField(
-        email,
-        emailPattern.test(email.value.trim()),
-        document.getElementById("emailError"),
-        "Invalid email format"
-    );
+    if(firstName.value.trim() === "" || !namePattern.test(firstName.value)){
+        setInvalid(firstName, firstNameError, "Only letters allowed");
+        valid = false;
+    } else {
+        setValid(firstName, firstNameError);
+    }
 
-    const validPassword = validateField(
-        password,
-        checkPasswordStrength(password.value),
-        document.getElementById("passwordError"),
-        "Password too weak"
-    );
+    if(lastName.value.trim() === "" || !namePattern.test(lastName.value)){
+        setInvalid(lastName, lastNameError, "Only letters allowed");
+        valid = false;
+    } else {
+        setValid(lastName, lastNameError);
+    }
 
-    const validAge = validateField(
-        age,
-        Number(age.value) >= 1 && Number(age.value) <= 120,
-        document.getElementById("ageError"),
-        "Age must be between 1 and 120"
-    );
+    if(email.value.trim() === "" || !emailPattern.test(email.value)){
+        setInvalid(email, emailError, "Invalid email format");
+        valid = false;
+    } else {
+        setValid(email, emailError);
+    }
 
-    const validGender = validateField(
-        gender,
-        gender.value !== "",
-        document.getElementById("genderError"),
-        "Select your gender"
-    );
+    if(!checkPasswordStrength(password.value)){
+        setInvalid(password, passwordError, "Password too weak");
+        valid = false;
+    } else {
+        setValid(password, passwordError);
+    }
 
-    submitBtn.disabled = !(validFirst && validLast && validEmail && validPassword && validAge && validGender);
+    let ageValue = Number(age.value);
+    if(age.value === "" || ageValue < 1 || ageValue > 120){
+        setInvalid(age, ageError, "Age must be between 1 and 120");
+        valid = false;
+    } else {
+        setValid(age, ageError);
+    }
+
+    if(gender.value === ""){
+        setInvalid(gender, genderError, "Select your gender");
+        valid = false;
+    } else {
+        setValid(gender, genderError);
+    }
+
+    submitBtn.disabled = !valid;
+    return valid;
 }
 
-/* Block numbers in name */
-firstName.addEventListener("keypress", function(e) {
-    if (!/[A-Za-z ]/.test(e.key)) e.preventDefault();
+/* ===== Live Validation ===== */
+
+[firstName, lastName, email, password, age].forEach(field => {
+    field.addEventListener("input", validateForm);
 });
 
-lastName.addEventListener("keypress", function(e) {
-    if (!/[A-Za-z ]/.test(e.key)) e.preventDefault();
-});
-
-/* Live validation */
-firstName.addEventListener("input", validateForm);
-lastName.addEventListener("input", validateForm);
-email.addEventListener("input", validateForm);
-password.addEventListener("input", validateForm);
-age.addEventListener("input", validateForm);
 gender.addEventListener("change", validateForm);
 
-document.getElementById("registerForm").addEventListener("submit", function(e) {
-    if (submitBtn.disabled) {
+/* ===== Submit Handling ===== */
+
+document.getElementById("registerForm").addEventListener("submit", function(e){
+    if(!validateForm()){
         e.preventDefault();
+        alert("Please correct all errors before submitting.");
+    } else {
+        alert("Registration Successful!");
     }
 });
 
 validateForm();
 
 </script>
+
 
 
 <footer>
