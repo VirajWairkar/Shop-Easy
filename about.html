@@ -9,55 +9,34 @@
 <nav class="nav">
     <div class="nav-inner">
         <a href="index.html" class="nav-logo">
-            <svg class="logo-svg" viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg">
+            <svg class="shopeasy-logo" viewBox="0 0 820 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ShopEasy logo">
+              <!-- Icon -->
+              <g transform="translate(20,20)">
+                <!-- Bag base -->
+                <path class="bag" d="M60 60c0-16 13-29 29-29h72c16 0 29 13 29 29v96c0 22-18 40-40 40H100c-22 0-40-18-40-40V60z" />
+                <!-- Bag shadow -->
+                <path class="bag-shadow" d="M60 120c18 14 44 22 72 22s54-8 72-22v36c0 22-18 40-40 40H100c-22 0-40-18-40-40v-36z"/>
+                <!-- Handle -->
+                <path class="handle" d="M92 52c0-20 16-36 36-36s36 16 36 36"/>
+                <!-- Lightning/fast mark -->
+                <path class="bolt" d="M138 78l-26 40h22l-16 32 34-44h-22l8-28z"/>
+              </g>
 
-                <defs>
-                    <!-- Gradient -->
-                    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#00d4ff"/>
-                        <stop offset="100%" stop-color="#e0ffff"/>
-                    </linearGradient>
-
-                    <!-- Glow Effect -->
-                    <filter id="glow">
-                        <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
-                        <feMerge>
-                            <feMergeNode in="coloredBlur"/>
-                            <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                    </filter>
-                </defs>
-
-                <!-- Neon Shopping Bag -->
-                <rect x="10" y="30" width="60" height="50" rx="12"
-                    fill="none"
-                    stroke="#00d4ff"
-                    stroke-width="4"
-                    filter="url(#glow)"/>
-
-                <path d="M25 30 Q40 5 55 30"
-                    stroke="#e0ffff"
-                    stroke-width="4"
-                    fill="none"
-                    filter="url(#glow)"/>
-
-                <!-- Brand Text -->
-                <text x="90" y="70"
-                    font-size="55"
-                    font-weight="900"
-                    font-style="italic"
-                    fill="url(#textGradient)"
-                    filter="url(#glow)"
-                    font-family="Segoe UI, Arial">
-                    ShopEasy
+              <!-- Wordmark -->
+              <g transform="translate(270,70)">
+                <text class="wordmark" x="0" y="60" font-size="72" font-weight="800" font-family="Segoe UI, Inter, Arial, sans-serif" letter-spacing="-1">
+                  Shop<tspan fill="var(--primary)">Easy</tspan>
                 </text>
-
+                <text class="tagline" x="4" y="98" font-size="22" font-weight="600" font-family="Segoe UI, Inter, Arial, sans-serif">
+                  Smart shopping, made simple
+                </text>
+              </g>
             </svg>
         </a>
 
         <a href="index.html">Home</a>
-        <a href="products.html">Products</a>
-        <a href="offers.html" class="active">Offers</a>
+        <a href="products.html" class="active">Products</a>
+        <a href="offers.html">Offers</a>
         <a href="about.html">About Us</a>
         <a href="register.html">Register</a>
         <a href="contact.html">Contact</a>

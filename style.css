@@ -452,4 +452,28 @@ footer {
     box-shadow: 0 0 25px #00d4ff;
 }
 
+.shopeasy-logo{
+        --primary:#1e88e5;
+        --accent:#00c853;
+        --dark:#0f172a;
+        --muted:#94a3b8;
+        width: 260px;
+        height: auto;
+        display: inline-block;
+}
 
+.shopeasy-logo .bag { fill: var(--primary); }
+.shopeasy-logo .bag-shadow { fill: rgba(15, 23, 42, 0.12); }
+.shopeasy-logo .handle { stroke: #ffffff; stroke-width: 10; fill: none; stroke-linecap: round; }
+.shopeasy-logo .bolt { fill: var(--accent); }
+.shopeasy-logo .wordmark { fill: var(--dark); }
+.shopeasy-logo .tagline { fill: var(--muted); }
+
+.shopeasy-logo:hover .bolt { filter: drop-shadow(0 4px 8px rgba(0,0,0,.18)); transform: translateY(-1px); }
+.shopeasy-logo .bolt { transition: .2s ease; transform-origin: center; }
+
+.hero-logo .shopeasy-logo {
+    width: 520px;
+    max-width: 100%;
+    height: auto;
+}
