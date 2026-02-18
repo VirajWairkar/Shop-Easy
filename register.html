@@ -3,6 +3,27 @@
 <head>
     <title>ShopEasy - Register</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+      .shopeasy-logo{
+        --primary:#00e5ff;
+        --accent:#ffea00;
+        --dark:#ffffff;
+        --muted:#b3e5ff;
+        width: 260px;
+        height: auto;
+        display: inline-block;
+      }
+
+      .shopeasy-logo .bag { fill: var(--primary); }
+      .shopeasy-logo .bag-shadow { fill: rgba(15, 23, 42, 0.12); }
+      .shopeasy-logo .handle { stroke: #ffffff; stroke-width: 10; fill: none; stroke-linecap: round; }
+      .shopeasy-logo .bolt { fill: var(--accent); }
+      .shopeasy-logo .wordmark { fill: var(--dark); }
+      .shopeasy-logo .tagline { fill: var(--muted); }
+
+      .shopeasy-logo:hover .bolt { filter: drop-shadow(0 4px 8px rgba(0,0,0,.18)); transform: translateY(-1px); }
+      .shopeasy-logo .bolt { transition: .2s ease; transform-origin: center; }
+    </style>
 </head>
 <body>
 
