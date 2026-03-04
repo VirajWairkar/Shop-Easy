@@ -1,84 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>ShopEasy - Home</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-      .shopeasy-logo{
-        --primary:#00e5ff;
-        --accent:#ffea00;
-        --dark:#ffffff;
-        --muted:#b3e5ff;
-        width: 260px;
-        height: auto;
-        display: inline-block;
-      }
+<title>ShopEasy - Home</title>
+<link rel="stylesheet" href="style.css">
 
-      .shopeasy-logo .bag { fill: var(--primary); }
-      .shopeasy-logo .handle { stroke: #ffffff; stroke-width: 10; fill: none; stroke-linecap: round; }
-      .shopeasy-logo .bolt { fill: var(--accent); }
-      .shopeasy-logo .wordmark { fill: var(--dark); }
-      .shopeasy-logo .tagline { fill: var(--muted); }
+<style>
+.shopeasy-logo{
+--primary:#00e5ff;
+--accent:#ffea00;
+--dark:#ffffff;
+--muted:#b3e5ff;
+width:260px;
+height:auto;
+display:inline-block;
+}
 
-      .shopeasy-logo:hover .bolt { filter: drop-shadow(0 4px 8px rgba(0,0,0,.18)); transform: translateY(-1px); }
-      .shopeasy-logo .bolt { transition: .2s ease; transform-origin: center; }
-    </style>
+.shopeasy-logo .bag{fill:var(--primary);}
+.shopeasy-logo .handle{stroke:#ffffff;stroke-width:10;fill:none;stroke-linecap:round;}
+.shopeasy-logo .bolt{fill:var(--accent);}
+.shopeasy-logo .wordmark{fill:var(--dark);}
+.shopeasy-logo .tagline{fill:var(--muted);}
+
+.shopeasy-logo:hover .bolt{
+filter:drop-shadow(0 4px 8px rgba(0,0,0,.18));
+transform:translateY(-1px);
+}
+
+.shopeasy-logo .bolt{
+transition:.2s ease;
+transform-origin:center;
+}
+</style>
 </head>
+
 <body>
 
 <header class="hero">
-    <div>
-        <div class="hero-logo">
-            <svg class="shopeasy-logo hero-logo-svg" viewBox="0 0 820 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ShopEasy logo">
-              <!-- Icon -->
-              <g transform="translate(20,20)">
-                <!-- Bag base -->
-                <path class="bag" d="M60 60c0-16 13-29 29-29h72c16 0 29 13 29 29v96c0 22-18 40-40 40H100c-22 0-40-18-40-40V60z" />
-                <!-- Handle -->
-                <path class="handle" d="M92 52c0-20 16-36 36-36s36 16 36 36"/>
-                <!-- Lightning/fast mark -->
-                <path class="bolt" d="M138 78l-26 40h22l-16 32 34-44h-22l8-28z"/>
-              </g>
+<div>
 
-              <!-- Wordmark -->
-              <g transform="translate(270,70)">
-           <text class="wordmark"
-      x="0"
-      y="75"
-      font-size="95"
-      font-weight="900"
-      font-style="italic"
-      font-family="Segoe UI, Inter, Arial, sans-serif"
-      letter-spacing="-2">
+<div class="hero-logo">
 
-                  Shop<tspan fill="var(--primary)">Easy</tspan>
-                </text>
-                <text class="tagline"
-      x="4"
-      y="120"
-      font-size="28"
-      font-weight="600"
-      font-style="italic"
-      font-family="Segoe UI, Inter, Arial, sans-serif"
-      letter-spacing="1">
+<svg class="shopeasy-logo hero-logo-svg"
+viewBox="0 0 820 220"
+xmlns="http://www.w3.org/2000/svg"
+role="img"
+aria-label="ShopEasy logo">
 
-                  Smart shopping, made simple
-                </text>
-              </g>
-            </svg>
-        </div>
+<!-- Icon -->
+<g transform="translate(20,20)">
 
-        <p class="hero-sub">
-            Your ultimate online shopping destination for electronics and gadgets.
-        </p>
-        <div class="hero-features">
-            <span>🔒 Secure Payments</span>
-            <span>🚚 Fast Delivery</span>
-            <span>💬 24/7 Support</span>
-        </div>
-        <a href="register.html" class="btn-primary">Join the Revolution</a>
-    </div>
+<path class="bag"
+d="M60 60c0-16 13-29 29-29h72c16 0 29 13 29 29v96c0 22-18 40-40 40H100c-22 0-40-18-40-40V60z"/>
+
+<path class="handle"
+d="M92 52c0-20 16-36 36-36s36 16 36 36"/>
+
+<text x="100"
+y="155"
+font-family="Georgia, serif"
+font-size="85"
+font-weight="bold"
+fill="var(--accent)"
+stroke="#000"
+stroke-width="1.5">
+S
+</text>
+
+</g>
+
+<!-- Wordmark -->
+<g transform="translate(270,70)">
+
+<text class="wordmark"
+x="0"
+y="60"
+font-size="97"
+font-weight="900"
+font-style="italic"
+font-family="Segoe UI, Inter, Arial, sans-serif"
+letter-spacing="-10">
+
+<tspan fill="var(--accent)" font-family="Georgia, serif" font-size="125">S</tspan>
+<tspan fill="var(--dark)">hop</tspan>
+<tspan fill="var(--accent)" font-family="Georgia, serif" font-size="125">E</tspan>
+<tspan fill="var(--dark)">asy</tspan>
+
+</text>
+
+<text class="tagline"
+x="4"
+y="110"
+font-size="28"
+font-weight="600"
+font-style="italic"
+font-family="Segoe UI, Inter, Arial, sans-serif"
+letter-spacing="2">
+
+Smart shopping, made simple
+
+</text>
+
+</g>
+
+</svg>
+
+</div>
+
+<p class="hero-sub">
+Your ultimate online shopping destination for electronics and gadgets.
+</p>
+
+<div class="hero-features">
+<span>🔒 Secure Payments</span>
+<span>🚚 Fast Delivery</span>
+<span>💬 24/7 Support</span>
+</div>
+
+<a href="register.html" class="btn-primary">
+Join the Revolution
+</a>
+
+</div>
 </header>
+
 
 <nav class="nav">
     <div class="nav-inner">
@@ -88,16 +132,17 @@
               <g transform="translate(20,20)">
                 <!-- Bag base -->
                 <path class="bag" d="M60 60c0-16 13-29 29-29h72c16 0 29 13 29 29v96c0 22-18 40-40 40H100c-22 0-40-18-40-40V60z" />
+                
                 <!-- Handle -->
                 <path class="handle" d="M92 52c0-20 16-36 36-36s36 16 36 36"/>
-                <!-- Lightning/fast mark -->
-                <path class="bolt" d="M138 78l-26 40h22l-16 32 34-44h-22l8-28z"/>
+<!-- S letter -->
+                <text x="100" y="155" font-family="Georgia, serif" font-size="85" font-weight="bold" fill="var(--accent)" stroke="#000" stroke-width="1.5">S</text>
               </g>
 
-              <!-- Wordmark -->
+<!-- Wordmark -->
               <g transform="translate(270,70)">
-                <text class="wordmark" x="0" y="60" font-size="72" font-weight="800" font-family="Segoe UI, Inter, Arial, sans-serif" letter-spacing="-1">
-                  Shop<tspan fill="var(--primary)">Easy</tspan>
+<text class="wordmark" x="0" y="60" font-size="72" font-weight="800" font-family="Segoe UI, Inter, Arial, sans-serif" letter-spacing="-1">
+<tspan fill="var(--accent)" font-family="Georgia, serif" font-size="70" dy="-20">S</tspan><tspan fill="var(--dark)">hop</tspan><tspan fill="var(--accent)" font-family="Georgia, serif" font-size="70" dy="25">E</tspan><tspan fill="var(--dark)">asy</tspan>
                 </text>
                 <text class="tagline" x="4" y="98" font-size="22" font-weight="600" font-family="Segoe UI, Inter, Arial, sans-serif">
                   Smart shopping, made simple
@@ -107,35 +152,43 @@
         </a>
 
         <a href="products.html">Products</a>
-        <a href="offers.html">Offers</a>
+        <a href="offers.html" class="active">Offers</a>
         <a href="about.html">About Us</a>
         <a href="register.html">Register</a>
         <a href="contact.html">Contact</a>
     </div>
 </nav>
 
+
 <section>
-    <div class="section-inner">
-        <h2 class="section-title">Why Choose Us?</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <h3 class="feature-title">Trusted Products</h3>
-                <p>Only genuine and reliable brands.</p>
-            </div>
-            <div class="feature-card">
-                <h3 class="feature-title">Student Prices</h3>
-                <p>Affordable deals made for students.</p>
-            </div>
-            <div class="feature-card">
-                <h3 class="feature-title">Easy Registration</h3>
-                <p>Quick and simple signup process.</p>
-            </div>
-        </div>
-    </div>
+<div class="section-inner">
+
+<h2 class="section-title">Why Choose Us?</h2>
+
+<div class="features-grid">
+
+<div class="feature-card">
+<h3 class="feature-title">Trusted Products</h3>
+<p>Only genuine and reliable brands.</p>
+</div>
+
+<div class="feature-card">
+<h3 class="feature-title">Student Prices</h3>
+<p>Affordable deals made for students.</p>
+</div>
+
+<div class="feature-card">
+<h3 class="feature-title">Easy Registration</h3>
+<p>Quick and simple signup process.</p>
+</div>
+
+</div>
+</div>
 </section>
 
+
 <footer>
-    © 2026 ShopEasy. All Rights Reserved.
+© 2026 ShopEasy. All Rights Reserved.
 </footer>
 
 </body>
