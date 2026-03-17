@@ -105,46 +105,126 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
-const x=document.getElementById("demo");
-const map=L.map("map").setView([19.0760,72.8777],12);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19}).addTo(map);
-let marker=null;
-const customIcon=L.divIcon({
- className:"custom-marker",
- html:`<svg width="50" height="50" viewBox="0 0 100 100">
- <circle cx="50" cy="50" r="40" fill="#007BFF"/>
- <circle cx="50" cy="50" r="20" fill="white"/>
- <circle cx="50" cy="50" r="8" fill="black"/></svg>`,
- iconSize:[50,50],iconAnchor:[25,25]
+/* ===== 1. CLOSURE - Map State Management ===== */
+const MapManager = (() => {
+    // Private variables - closure scope
+    let map = null;
+    let marker = null;
+    let locationHistory = [];
+    const DEFAULT_COORDS = [19.0760, 72.8777]; // Mumbai
+    
+    // Private arrow functions
+    const createCustomIcon = () => L.divIcon({
+        className: "custom-marker",
+        html: `<svg width="50" height="50" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="40" fill="#007BFF"/>
+                <circle cx="50" cy="50" r="20" fill="white"/>
+                <circle cx="50" cy="50" r="8" fill="black"/></svg>`,
+        iconSize: [50, 50],
+        iconAnchor: [25, 25]
+    });
+    
+    const addToHistory = (coords) => {
+        locationHistory.push(coords);
+        if (locationHistory.length > 5) locationHistory.shift(); // Keep last 5
+    };
+    
+    // Return public methods
+    return {
+        initMap: (elementId = "map") => {
+            if (!map) {
+                map = L.map(elementId).setView(DEFAULT_COORDS, 12);
+                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(map);
+            }
+            return map;
+        },
+        
+        setView: (lat, lon, zoom = 16) => {
+            if (map) map.setView([lat, lon], zoom);
+        },
+        
+        addMarker: (lat, lon, message = "Location") => {
+            if (map) {
+                if (marker) map.removeLayer(marker);
+                marker = L.marker([lat, lon], { icon: createCustomIcon() })
+                    .addTo(map)
+                    .bindPopup(message)
+                    .openPopup();
+                addToHistory([lat, lon]);
+            }
+            return marker;
+        },
+        
+        getHistory: () => [...locationHistory], // Return copy of history
+        
+        clearHistory: () => {
+            locationHistory = [];
+        },
+        
+        getDefaultCoords: () => [...DEFAULT_COORDS] // Spread - return copy
+    };
+})();
+
+/* ===== 2. ARROW FUNCTIONS ===== */
+// Arrow functions for geolocation handling
+const x = document.getElementById("demo");
+
+// Arrow function for success callback
+const success = (p) => {
+    const { latitude, longitude } = p.coords;
+    x.innerHTML = `Latitude: ${latitude.toFixed(6)}<br>Longitude: ${longitude.toFixed(6)}`;
+    MapManager.addMarker(latitude, longitude, "Your current location!");
+    MapManager.setView(latitude, longitude);
+};
+
+// Arrow function for error callback
+const error = (err) => {
+    const messages = {
+        1: "User denied the request for Geolocation.",
+        2: "Location information is unavailable.",
+        3: "The request to get user location timed out.",
+        default: "An unknown error occurred."
+    };
+    x.innerHTML = messages[err.code] || messages.default;
+};
+
+/* ===== 3. DEFAULT PARAMETERS ===== */
+function getLocation(enableHighAccuracy = true, timeout = 10000, maximumAge = 0) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error, {
+            enableHighAccuracy,
+            timeout,
+            maximumAge
+        });
+    } else {
+        x.innerHTML = "Geolocation not supported.";
+    }
+}
+
+/* ===== 4. REST PARAMETERS ===== */
+// Function that accepts variable arguments
+function logLocationDetails(...details) {
+    console.log("Location Details:", details);
+    const [lat, lon, accuracy, timestamp] = details;
+    return { lat, lon, accuracy, timestamp };
+}
+
+/* ===== 5. SPREAD OPERATOR ===== */
+// Using spread to combine location data
+const baseLocation = { city: "Mumbai", country: "India" };
+const userLocation = { ...baseLocation, district: "Maharashtra", pincode: "400001" };
+
+/* ===== 6. bind() - For Event Handlers ===== */
+// Creating bound handler for location button
+const handleGetLocation = getLocation.bind(null, true, 10000, 0);
+
+// Initialize map on page load using arrow function
+document.addEventListener("DOMContentLoaded", () => {
+    MapManager.initMap("map");
+    console.log("Map initialized with default view:", MapManager.getDefaultCoords());
+    console.log("User location data:", userLocation);
 });
-function getLocation(){
- if(navigator.geolocation){
-  navigator.geolocation.getCurrentPosition(success, error, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
- } else x.innerHTML="Geolocation not supported.";
-}
-function success(p){
- const lat=p.coords.latitude,lon=p.coords.longitude;
- x.innerHTML="Latitude: "+lat.toFixed(6)+"<br>Longitude: "+lon.toFixed(6);
- if(marker) map.removeLayer(marker);
- marker=L.marker([lat,lon],{icon:customIcon}).addTo(map).bindPopup("Welcome to my current coordinates!").openPopup();
- map.setView([lat,lon],16);
-}
-function error(error) {
-  switch(error.code) {
-    case error.PERMISSION_DENIED:
-      x.innerHTML = "User denied the request for Geolocation.";
-      break;
-    case error.POSITION_UNAVAILABLE:
-      x.innerHTML = "Location information is unavailable.";
-      break;
-    case error.TIMEOUT:
-      x.innerHTML = "The request to get user location timed out.";
-      break;
-    default:
-      x.innerHTML = "An unknown error occurred.";
-      break;
-  }
-}
+
 </script>
 </body>
 </html>

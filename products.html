@@ -22,6 +22,28 @@
 
       .shopeasy-logo:hover .bolt { filter: drop-shadow(0 4px 8px rgba(0,0,0,.18)); transform: translateY(-1px); }
       .shopeasy-logo .bolt { transition: .2s ease; transform-origin: center; }
+      
+      /* Filter styles */
+      .filter-container {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f8f9fa;
+        color: black;
+        border-radius: 8px;
+      }
+      .filter-btn {
+        padding: 8px 16px;
+        margin: 4px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background: #007BFF;
+        color: white;
+        transition: 0.3s;
+      }
+      .filter-btn:hover { background: #0056b3; }
+      .filter-btn.active { background: #28a745; }
+      .price-display { margin-top: 10px; font-weight: bold; color: #28a745; }
     </style>
 </head>
 <body>
@@ -60,6 +82,18 @@
     <div class="section-inner">
         <h2 class="section-title">Our Products</h2>
 
+        <!-- Filter Section with Closure, Arrow Functions, Rest Parameters -->
+        <div class="filter-container">
+            <h3>Filter Products</h3>
+            <button class="filter-btn active" onclick="filterProducts('all')">All</button>
+            <button class="filter-btn" onclick="filterProducts('laptop')">Laptops</button>
+            <button class="filter-btn" onclick="filterProducts('smartphone')">Smartphones</button>
+            <button class="filter-btn" onclick="filterProducts('smartwatch')">Smartwatches</button>
+            <button class="filter-btn" onclick="filterProducts('tablet')">Tablets</button>
+            <button class="filter-btn" onclick="showPriceStats()">Price Stats</button>
+            <div id="priceStats" class="price-display"></div>
+        </div>
+
         <div class="card">
             <img src="laptop.jpg" alt="Laptop" style="width:200px; margin-bottom:15px;">
             <h3>Laptop</h3>
@@ -91,6 +125,110 @@
 </section>
 
 <footer>© 2026 ShopEasy</footer>
+
+<!-- Advanced JavaScript Functions Implementation -->
+<script>
+/* ===== 1. CLOSURE - Product Filter with Private State ===== */
+// Closure to encapsulate product filter state
+const createProductFilter = (() => {
+    // Private variables (closure scope)
+    let productData = [
+        { name: 'Laptop', category: 'laptop', price: 59999 },
+        { name: 'Smartphone', category: 'smartphone', price: 24999 },
+        { name: 'Smartwatch', category: 'smartwatch', price: 39999 },
+        { name: 'Tablet', category: 'tablet', price: 49999 }
+    ];
+    let currentFilter = 'all';
+    
+    // Private function to filter products
+    const filterByCategory = (category) => {
+        if (category === 'all') return productData;
+        return productData.filter(item => item.category === category);
+    };
+    
+    // Private arrow function to calculate total
+    const calculateTotal = (...prices) => prices.reduce((sum, price) => sum + price, 0);
+    
+    // Return public methods using closure
+    return {
+        getFilteredProducts: (category) => filterByCategory(category),
+        getAllPrices: () => productData.map(p => p.price),
+        getTotalPrice: () => calculateTotal(...productData.map(p => p.price)),
+        getAveragePrice: (prices = productData.map(p => p.price)) => {
+            // Default parameter usage
+            return calculateTotal(...prices) / prices.length;
+        },
+        getMinMax: (...prices) => {
+            // Rest parameters
+            return {
+                min: Math.min(...prices),
+                max: Math.max(...prices)
+            };
+        }
+    };
+})();
+
+// Arrow function for filtering products
+const filterProducts = (category) => {
+    // Update button states using arrow function
+    const buttons = document.querySelectorAll('.filter-btn');
+    buttons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.toLowerCase().includes(category) || 
+            (category === 'all' && btn.textContent === 'All')) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // Show category message
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        const h3 = card.querySelector('h3');
+        const productName = h3.textContent.toLowerCase();
+        const categoryMatch = category === 'all' || productName.includes(category);
+        card.style.display = categoryMatch ? 'block' : 'none';
+    });
+    
+    // Clear stats
+    document.getElementById('priceStats').textContent = '';
+};
+
+// Arrow function for price statistics
+const showPriceStats = () => {
+    const statsDiv = document.getElementById('priceStats');
+    const prices = createProductFilter.getAllPrices();
+    const minMax = createProductFilter.getMinMax(...prices);
+    const avg = createProductFilter.getAveragePrice();
+    
+    statsDiv.innerHTML = `
+        Average Price: ₹${avg.toFixed(2)}<br>
+        Min Price: ₹${minMax.min}<br>
+        Max Price: ₹${minMax.max}<br>
+        Total: ₹${createProductFilter.getTotalPrice()}
+    `;
+    
+    // Highlight active button
+    const buttons = document.querySelectorAll('.filter-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    buttons[buttons.length - 1].classList.add('active');
+};
+
+/* ===== 2. ARROW FUNCTIONS - Price Display ===== */
+// Using arrow function for cleaner syntax
+const formatPrice = (price) => `₹${price.toLocaleString('en-IN')}`;
+const calculateDiscount = (price, discountPercent = 10) => {
+    // Default parameter
+    return price - (price * discountPercent / 100);
+};
+
+/* ===== 3. SPREAD OPERATOR - Product Data ===== */
+// Using spread to combine product arrays
+const basicProducts = ['Laptop', 'Smartphone'];
+const accessoryProducts = ['Headphones', 'Charger'];
+const allProducts = [...basicProducts, ...accessoryProducts]; // Spread operator
+
+console.log('All Products:', allProducts);
+</script>
 
 </body>
 </html>

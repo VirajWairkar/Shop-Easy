@@ -164,47 +164,65 @@ input.invalid, select.invalid {
 </section>
 
 
-<!-- JavaScript Validation -->
+<!-- JavaScript Validation with Advanced Functions -->
 <script>
+/* ===== 1. IIFE - Form Validation Module ===== */
+// Immediately Invoked Function Expression for encapsulation
+const FormValidator = (() => {
+    // Private variables
+    const namePattern  = /^[A-Za-z ]+$/;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    // Private helper function
+    const trimValue = (value) => value ? value.trim() : '';
+    
+    // Return public methods
+    return {
+        validateName: (name) => {
+            const trimmed = trimValue(name);
+            return trimmed !== '' && namePattern.test(trimmed);
+        },
+        validateEmail: (email) => {
+            const trimmed = trimValue(email);
+            return trimmed !== '' && emailPattern.test(trimmed);
+        },
+        validateAge: (age, minAge = 1, maxAge = 120) => {
+            // Default parameters for min/max age
+            const ageNum = Number(age);
+            return ageNum >= minAge && ageNum <= maxAge;
+        }
+    };
+})();
 
-const firstName = document.getElementById("firstName");
-const lastName  = document.getElementById("lastName");
-const email     = document.getElementById("email");
-const password  = document.getElementById("password");
-const age       = document.getElementById("age");
-const gender    = document.getElementById("gender");
-const submitBtn = document.getElementById("submitBtn");
-const strengthFill = document.getElementById("strengthFill");
+/* ===== 2. DEFAULT PARAMETERS ===== */
+function calculatePasswordScore(password, minLength = 8) {
+    // Default parameter for minimum length
+    let score = 0;
+    if(password.length >= minLength) score++;
+    if(/[A-Z]/.test(password)) score++;
+    if(/[a-z]/.test(password)) score++;
+    if(/[0-9]/.test(password)) score++;
+    if(/[@$!%*?&]/.test(password)) score++;
+    return score;
+}
 
-const namePattern  = /^[A-Za-z ]+$/;
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-/* ===== Helper Functions ===== */
-
-function setValid(input, errorEl){
+/* ===== 3. ARROW FUNCTIONS ===== */
+const setValid = (input, errorEl) => {
     input.classList.remove("invalid");
     input.classList.add("valid");
     errorEl.textContent = "";
-}
+};
 
-function setInvalid(input, errorEl, message){
+const setInvalid = (input, errorEl, message) => {
     input.classList.remove("valid");
     input.classList.add("invalid");
     errorEl.textContent = message;
-}
+};
 
-/* ===== Password Strength ===== */
-
-function checkPasswordStrength(value){
-
-    let score = 0;
-
-    if(value.length >= 8) score++;
-    if(/[A-Z]/.test(value)) score++;
-    if(/[a-z]/.test(value)) score++;
-    if(/[0-9]/.test(value)) score++;
-    if(/[@$!%*?&]/.test(value)) score++;
-
+// Arrow function for password strength
+const checkPasswordStrength = (value) => {
+    const score = calculatePasswordScore(value);
+    
     if(score <= 2){
         strengthFill.style.width = "30%";
         strengthFill.style.background = "red";
@@ -217,70 +235,120 @@ function checkPasswordStrength(value){
         strengthFill.style.width = "100%";
         strengthFill.style.background = "green";
     }
-
+    
     return score >= 4;
+};
+
+/* ===== 4. call(), apply(), bind() - Method Sharing ===== */
+// Utility object with validation method
+const ValidationHelper = {
+    showError: function(input, errorEl, message) {
+        setInvalid(input, errorEl, message);
+    },
+    showSuccess: function(input, errorEl) {
+        setValid(input, errorEl);
+    }
+};
+
+// Using call() to borrow method
+const showFieldError = function(input, errorEl, message) {
+    this.showError(input, errorEl, message);
+};
+
+// Using apply() for flexible argument passing
+function validateMultipleFields(...fields) {
+    // apply() passes array as arguments
+    return fields.every(field => field.isValid);
 }
 
-/* ===== Main Validation ===== */
+// Using bind() for event handlers
+const firstName = document.getElementById("firstName");
+const lastName  = document.getElementById("lastName");
+const email     = document.getElementById("email");
+const password  = document.getElementById("password");
+const age       = document.getElementById("age");
+const gender    = document.getElementById("gender");
+const submitBtn = document.getElementById("submitBtn");
+const strengthFill = document.getElementById("strengthFill");
+
+/* ===== 5. REST PARAMETERS ===== */
+// Function using rest parameters
+function getFormData(...fieldIds) {
+    return fieldIds.map(id => {
+        const el = document.getElementById(id);
+        return { id: id, value: el.value, element: el };
+    });
+}
+
+/* ===== 6. SPREAD OPERATOR ===== */
+// Merge default fields with additional fields
+const defaultFields = ['firstName', 'lastName', 'email'];
+const optionalFields = ['age', 'gender'];
+const allFormFields = [...defaultFields, 'password', ...optionalFields]; // Spread operator
+
+/* ===== MAIN VALIDATION ===== */
 
 function validateForm(){
-
     let valid = true;
-
-    if(firstName.value.trim() === "" || !namePattern.test(firstName.value)){
-        setInvalid(firstName, firstNameError, "Only letters allowed");
+    
+    // Using bind() to create handler with specific context
+    const handleFirstName = showFieldError.bind(ValidationHelper);
+    
+    if(!FormValidator.validateName(firstName.value)){
+        handleFirstName(firstName, firstNameError, "Only letters allowed");
         valid = false;
     } else {
-        setValid(firstName, firstNameError);
+        ValidationHelper.showSuccess(firstName, firstNameError); // Using call()
     }
-
-    if(lastName.value.trim() === "" || !namePattern.test(lastName.value)){
-        setInvalid(lastName, lastNameError, "Only letters allowed");
+    
+    if(!FormValidator.validateName(lastName.value)){
+        handleFirstName(lastName, lastNameError, "Only letters allowed");
         valid = false;
     } else {
-        setValid(lastName, lastNameError);
+        ValidationHelper.showSuccess(lastName, lastNameError);
     }
-
-    if(email.value.trim() === "" || !emailPattern.test(email.value)){
-        setInvalid(email, emailError, "Invalid email format");
+    
+    if(!FormValidator.validateEmail(email.value)){
+        handleFirstName(email, emailError, "Invalid email format");
         valid = false;
     } else {
-        setValid(email, emailError);
+        ValidationHelper.showSuccess(email, emailError);
     }
-
+    
     if(!checkPasswordStrength(password.value)){
-        setInvalid(password, passwordError, "Password too weak");
+        handleFirstName(password, passwordError, "Password too weak");
         valid = false;
     } else {
-        setValid(password, passwordError);
+        ValidationHelper.showSuccess(password, passwordError);
     }
-
-    let ageValue = Number(age.value);
-    if(age.value === "" || ageValue < 1 || ageValue > 120){
-        setInvalid(age, ageError, "Age must be between 1 and 120");
+    
+    // Using default parameters
+    if(!FormValidator.validateAge(age.value)){
+        handleFirstName(age, ageError, "Age must be between 1 and 120");
         valid = false;
     } else {
-        setValid(age, ageError);
+        ValidationHelper.showSuccess(age, ageError);
     }
-
+    
     if(gender.value === ""){
-        setInvalid(gender, genderError, "Select your gender");
+        handleFirstName(gender, genderError, "Select your gender");
         valid = false;
     } else {
-        setValid(gender, genderError);
+        ValidationHelper.showSuccess(gender, genderError);
     }
-
+    
     submitBtn.disabled = !valid;
     return valid;
 }
 
-/* ===== Live Validation ===== */
+/* ===== EVENT LISTENERS with bind() ===== */
 
+// Using arrow functions for event handlers
 [firstName, lastName, email, password, age].forEach(field => {
-    field.addEventListener("input", validateForm);
+    field.addEventListener("input", () => validateForm()); // Arrow function
 });
 
-gender.addEventListener("change", validateForm);
+gender.addEventListener("change", () => validateForm()); // Arrow function
 
 /* ===== Submit Handling ===== */
 
@@ -293,7 +361,17 @@ document.getElementById("registerForm").addEventListener("submit", function(e){
     }
 });
 
+// Initialize
 validateForm();
+
+/* ===== Using apply() for array operations ===== */
+// Example: Using apply() with Math.max
+const prices = [59999, 24999, 39999, 49999];
+const maxPrice = Math.max.apply(null, prices);
+const minPrice = Math.min.apply(null, prices);
+
+console.log('Price Range:', minPrice, '-', maxPrice);
+console.log('All Form Fields:', allFormFields);
 
 </script>
 

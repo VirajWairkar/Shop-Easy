@@ -1,18 +1,25 @@
-# TODO - Remove Shadow Effect from SVG Logo
+# TODO: Advanced JavaScript Functions Implementation
 
-## Task: Remove the bag-shadow path element from all HTML files
+## Task: Apply advanced JavaScript functions from Experiment 6 to ShopEasy website
 
-### Files to edit:
-- [ ] Shop-Easy-main/index.html (2 SVG instances - hero-logo and nav-logo)
-- [ ] Shop-Easy-main/about.html
-- [ ] Shop-Easy-main/contact.html
-- [ ] Shop-Easy-main/offers.html
-- [ ] Shop-Easy-main/products.html
-- [ ] Shop-Easy-main/register.html
+### Files to Modify:
+- [ ] 1. products.html - Add filter functionality with closures, arrow functions, rest parameters
+- [ ] 2. register.html - Enhance with IIFE, bind, default parameters
+- [ ] 3. contact.html - Use closures for map state, arrow functions
+- [ ] 4. index.html - Add dynamic features with spread parameters, arrow functions
 
-### Changes needed for each file:
-1. Remove the CSS rule: `.shopeasy-logo .bag-shadow { fill: rgba(15, 23, 42, 0.12); }`
-2. Remove the SVG path: `<path class="bag-shadow" d="M60 120c18 14 44 22 72 22s54-8 72-22v36c0 22-18 40-40 40H100c-22 0-40-18-40-40v-36z"/>`
+### Advanced Functions to Apply:
+- Arrow Functions (=>)
+- Closures
+- IIFE (Immediately Invoked Function Expressions)
+- call(), apply(), bind()
+- Default Parameters
+- Rest Parameters
+- Spread Parameters
 
 ### Progress:
-- [ ] Complete all edits
+- [x] products.html
+- [x] register.html
+- [x] contact.html
+- [x] index.html
+
