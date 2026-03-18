@@ -561,6 +561,21 @@ footer {
   background: rgba(0,153,255,0.9);
 }
 
+.add-cart-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 25px;
+  background: linear-gradient(45deg, #007BFF, #0056b3);
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(0,123,255,0.4);
+  transition: 0.3s;
+  margin-top: 15px;
+  border: none;
+  cursor: pointer;
+}
+
 .filter-btn {
   display: inline-block;
   padding: 12px 24px;
@@ -575,6 +590,8 @@ footer {
   border: none;
   cursor: pointer;
 }
+
+
 
 .filter-btn:hover {
   transform: translateY(-3px);

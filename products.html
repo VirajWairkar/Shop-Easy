@@ -70,13 +70,23 @@
             <button class="filter-btn" onclick="filterProducts('tablet')">Tablets</button>
             <button class="filter-btn" onclick="showPriceStats()">Price Stats</button>
             <div id="priceStats" class="price-display"></div>
+            <div style="display: flex; justify-content: center; gap: 15px; align-items: center; margin-top: 15px;">
+              <div id="cartTotal" style="text-align: center; min-width: 200px;">Cart Total: ₹0 (0 items)</div>
+
+              <button id="emptyCart" class="empty-cart-btn filter-btn" onclick="emptyCart()" style="background: linear-gradient(45deg, #dc3545, #c82333); box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4); color: white;">Empty Cart</button>
+
+
+            </div>
         </div>
+
+
 
         <div class="card">
             <img src="laptop.jpg" alt="Laptop" style="width:200px; margin-bottom:15px;">
             <h3>Laptop</h3>
             <p>HP | 16GB RAM | 512GB SSD</p>
             <b>₹59,999</b>
+            <button class="add-cart-btn" data-name="Laptop" data-price="59999" data-category="laptop">Add to Cart</button>
         </div>
 
         <div class="card">
@@ -84,6 +94,7 @@
             <h3>Smartphone</h3>
             <p>Samsung | AMOLED | 64MP</p>
             <b>₹24,999</b>
+            <button class="add-cart-btn" data-name="Smartphone" data-price="24999" data-category="smartphone">Add to Cart</button>
         </div>
 
         <div class="card">
@@ -91,6 +102,7 @@
             <h3>Smartwatch</h3>
             <p>Apple Watch | Series 8 | GPS</p>
             <b>₹39,999</b>
+            <button class="add-cart-btn" data-name="Smartwatch" data-price="39999" data-category="smartwatch">Add to Cart</button>
         </div>
 
         <div class="card">
@@ -98,6 +110,7 @@
             <h3>Tablet</h3>
             <p>iPad | 10.9-inch | 64GB</p>
             <b>₹49,999</b>
+            <button class="add-cart-btn" data-name="Tablet" data-price="49999" data-category="tablet">Add to Cart</button>
         </div>
     </div>
 </section>
@@ -206,6 +219,82 @@ const accessoryProducts = ['Headphones', 'Charger'];
 const allProducts = [...basicProducts, ...accessoryProducts]; // Spread operator
 
 console.log('All Products:', allProducts);
+
+/* ===== 4. CONSTRUCTOR FUNCTIONS - Product Class ===== */
+function Product(name, price, category, description) {
+  this.name = name;
+  this.price = price;
+  this.category = category;
+  this.description = description;
+  this.inCart = 0;
+}
+
+Product.prototype.getFormattedPrice = function() {
+  return '₹' + this.price.toLocaleString('en-IN');
+};
+
+Product.prototype.addToCart = function() {
+  this.inCart++;
+  return this.inCart;
+};
+
+/* ===== 5. CLOSURE - Cart Management ===== */
+const CartManager = (() => {
+  let cartItems = []; // Private cart array
+  let total = 0; // Private total
+  
+  const updateTotal = () => {
+    total = cartItems.reduce((sum, item) => sum + (item.price * item.inCart), 0);
+    document.getElementById('cartTotal').textContent = `Cart Total: ${formatPrice(total)} (${cartItems.reduce((sum, item) => sum + item.inCart, 0)} items)`;
+  };
+  
+  return {
+    addProduct: function(product) {
+      const existing = cartItems.find(item => item.name === product.name);
+      if (existing) {
+        existing.addToCart();
+      } else {
+        cartItems.push(new Product(product.name, product.price, product.category, product.description));
+        cartItems[cartItems.length - 1].addToCart();
+      }
+      updateTotal();
+      alert(`${product.name} added to cart! Cart total: ${formatPrice(total)}`);
+    },
+    getCart: () => cartItems,
+    getTotal: () => total
+  };
+})();
+
+/* ===== 6. CALL/APPLY/BIND - Cart Event Handlers ===== */
+const CartHandler = {
+  handleAddToCart: function(event) {
+    const btn = event.target;
+    const productData = {
+      name: btn.dataset.name,
+      price: parseInt(btn.dataset.price),
+      category: btn.dataset.category,
+      description: btn.parentElement.querySelector('p').textContent
+    };
+    CartManager.addProduct(productData);
+  }
+};
+
+// Bind method for event handlers
+function emptyCart() {
+  CartManager.getCart().forEach(item => item.inCart = 0);
+  CartManager.getCart().length = 0; // Clear array
+  document.getElementById('cartTotal').textContent = 'Cart Total: ₹0 (0 items)';
+  alert('Cart emptied!');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.add-cart-btn').forEach(btn => {
+    btn.addEventListener('click', CartHandler.handleAddToCart.bind(CartHandler));
+  });
+  
+  document.getElementById('emptyCart').addEventListener('click', emptyCart);
+});
+
 </script>
 
 </body>
