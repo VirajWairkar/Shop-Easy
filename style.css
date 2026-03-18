@@ -535,3 +535,59 @@ footer {
 .leaflet-control-container{
     z-index: 500;
 }
+
+/* =====================
+   FILTER CONTAINER - Dark Blue Card (Products Page)
+   ===================== */
+.filter-container {
+  background: rgba(0,153,255,0.85); /* Match .form-container */
+  padding: 35px;
+  border-radius: 25px;
+  color: #ffffff;
+  border: 2px solid rgba(224,255,255,0.7);
+  box-shadow: 0 15px 35px rgba(0,153,255,0.5), 0 0 30px rgba(0,153,255,0.3), 0 0 10px rgba(0,212,255,0.8), 0 0 20px rgba(0,212,255,0.6);
+  backdrop-filter: blur(15px);
+  transition: 0.3s;
+  margin: 20px auto 20px;
+  max-width: 900px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.filter-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 45px rgba(0,153,255,0.7), 0 0 50px rgba(0,153,255,0.5), 0 0 15px rgba(0,212,255,0.9), 0 0 30px rgba(0,212,255,0.7);
+  background: rgba(0,153,255,0.9);
+}
+
+.filter-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 25px;
+  background: linear-gradient(45deg, var(--primary-color), #b3ffff);
+  color: #0066cc;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: var(--box-shadow-light);
+  transition: 0.3s;
+  margin: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.filter-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0,212,255,0.6);
+}
+
+.filter-btn.active {
+  background: linear-gradient(45deg, var(--accent-color), #00b3d9);
+  box-shadow: 0 0 20px rgba(0,212,255,0.8);
+}
+
+.price-display {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #ffffff;
+}
