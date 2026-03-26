@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,12 +71,24 @@
             <button class="filter-btn" onclick="filterProducts('tablet')">Tablets</button>
             <button class="filter-btn" onclick="showPriceStats()">Price Stats</button>
             <div id="priceStats" class="price-display"></div>
-            <div style="display: flex; justify-content: center; gap: 15px; align-items: center; margin-top: 15px;">
+<div style="display: flex; justify-content: center; gap: 15px; align-items: center; margin-top: 15px;">
               <div id="cartTotal" style="text-align: center; min-width: 200px;">Cart Total: ₹0 (0 items)</div>
 
               <button id="emptyCart" class="empty-cart-btn filter-btn" onclick="emptyCart()" style="background: linear-gradient(45deg, #dc3545, #c82333); box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4); color: white;">Empty Cart</button>
+            </div>
 
-
+            <!-- JSON Activity Controls -->
+            <div id="jsonControls">
+              <button id="exportJson" class="filter-btn json-btn">📤 1. Save Cart as JSON</button>
+              <button id="editPriceBtn" class="filter-btn json-btn">✏️ 2. Edit Cart Item</button>
+              <textarea id="jsonInput" placeholder="Paste exported JSON here or auto-loads from storage..." rows="4"></textarea>
+              <button id="loadJson" class="filter-btn json-btn">📥 3. Restore Cart from JSON</button>
+              <div id="jsonOutput"></div>
+              <div id="editForm" style="display:none;">
+                <label>Pick Item: <select id="itemSelect" class="item-select"></select></label>
+                <label>New Quantity (0 removes): <input id="qtyInput" type="number" min="0" class="price-input" placeholder="e.g. 2"></label>
+                <button onclick="updateQuantity()" class="json-btn">Update Quantity</button>
+              </div>
             </div>
         </div>
 
@@ -293,7 +306,98 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   document.getElementById('emptyCart').addEventListener('click', emptyCart);
+
+  // JSON Activity 1: stringify() - Save Cart
+  document.getElementById('exportJson').onclick = function() {
+    const cart = CartManager.getCart().map(item => ({
+      name: item.name,
+      price: item.price,
+      category: item.category,
+      description: item.description,
+      inCart: item.inCart
+    }));
+    const jsonString = JSON.stringify(cart, null, 2);
+    localStorage.setItem('shopEasyCart', jsonString);
+    document.getElementById('jsonInput').value = jsonString;
+    document.getElementById('jsonOutput').textContent = `✅ Saved! ${cart.length} items → JSON string ready.`;
+    populateEditSelect(cart);
+    updateTotal(); // refresh
+  };
+
+  // JSON Activity 3: parse() - Load Cart
+  document.getElementById('loadJson').onclick = function() {
+    const jsonStr = document.getElementById('jsonInput').value || localStorage.getItem('shopEasyCart');
+    if (!jsonStr) return alert('No JSON to load!');
+    try {
+      const cartData = JSON.parse(jsonStr);
+      // Clear & reload cart
+      CartManager.getCart().length = 0;
+      cartData.forEach(data => {
+        const p = new Product(data.name, data.price, data.category || '', data.description || '');
+        p.inCart = data.inCart || 1;
+        CartManager.getCart().push(p);
+      });
+      document.getElementById('jsonOutput').textContent = `✅ Loaded ${cartData.length} items!`;
+      updateTotal();
+      populateEditSelect(cartData);
+    } catch(e) {
+      document.getElementById('jsonOutput').textContent = '❌ Invalid JSON!';
+    }
+  };
+
+  // Auto-load preview
+  if (localStorage.getItem('shopEasyCart')) {
+    document.getElementById('jsonInput').value = localStorage.getItem('shopEasyCart');
+    document.getElementById('jsonOutput').textContent = 'Auto-loaded from storage. Click Restore!';
+  }
 });
+
+// Helper: Populate edit dropdown
+function populateEditSelect(cart) {
+  const select = document.getElementById('itemSelect');
+  select.innerHTML = '';
+  cart.forEach((item, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.text = `${item.name} (₹${item.price}, qty:${item.inCart})`;
+    select.add(opt);
+  });
+  document.getElementById('editForm').style.display = cart.length ? 'block' : 'none';
+}
+
+document.getElementById('editPriceBtn').onclick = function() {
+  document.getElementById('editForm').style.display = 'block';
+};
+
+function updateQuantity() {
+  const idx = parseInt(document.getElementById('itemSelect').value);
+  const newQty = parseInt(document.getElementById('qtyInput').value);
+  if (isNaN(idx)) return document.getElementById('jsonOutput').textContent = '❌ Select item';
+  
+  const jsonStr = localStorage.getItem('shopEasyCart') || '[]';
+  let cart = JSON.parse(jsonStr);
+  
+  if (newQty <= 0) {
+    const removedItem = cart[idx]?.name || 'Item'; // store before removing
+    cart.splice(idx, 1);
+    document.getElementById('jsonOutput').textContent = `✅ ${removedItem} removed`;
+  } else {
+    cart[idx].inCart = newQty;
+    document.getElementById('jsonOutput').textContent = `✅ ${cart[idx].name} qty → ${newQty}`;
+  }
+  
+  localStorage.setItem('shopEasyCart', JSON.stringify(cart, null, 2));
+  document.getElementById('jsonInput').value = JSON.stringify(cart, null, 2);
+  document.getElementById('loadJson').click();
+  populateEditSelect(cart);
+}
+
+// Expose updateTotal globally (already defined in closure)
+window.updateTotal = () => {
+  const cartItems = CartManager.getCart();
+  let total = cartItems.reduce((sum, item) => sum + (item.price * item.inCart), 0);
+  document.getElementById('cartTotal').textContent = `Cart Total: ${formatPrice(total)} (${cartItems.reduce((sum, item) => sum + item.inCart, 0)} items)`;
+};
 
 </script>
 

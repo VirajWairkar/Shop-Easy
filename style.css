@@ -608,3 +608,57 @@ footer {
   font-weight: bold;
   color: #ffffff;
 }
+
+/* JSON Controls - New */
+#jsonControls {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.json-btn {
+  background: linear-gradient(45deg, #28a745, #20c997);
+  color: white;
+}
+
+.json-btn:hover {
+  box-shadow: 0 0 20px rgba(40,167,69,0.8);
+  transform: translateY(-2px);
+}
+
+#jsonInput {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid rgba(224,255,255,0.6);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  font-family: monospace;
+  resize: vertical;
+}
+
+#jsonOutput {
+  background: rgba(0,0,0,0.6);
+  padding: 15px;
+  border-radius: 12px;
+  margin-top: 10px;
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 0.9rem;
+  border-left: 4px solid #28a745;
+}
+
+#editForm {
+  background: rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+.item-select, .price-input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin: 5px;
+}
