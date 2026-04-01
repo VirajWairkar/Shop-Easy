@@ -1,12 +1,7 @@
-# JSON Features TODO - Products.html
+# Task: Add slight visible black border to S and E in "ShopEasy" main title (index.html hero SVG)
 
-## Plan Steps:
-- [x] Step 1: Update style.css with JSON control styles ✅
-- [x] Step 2: Edit products.html - Add JSON controls HTML to filter-container ✅
-- [x] Step 3: Edit products.html - Add JS functions for stringify/edit/parse ✅
-- [x] Step 4: Test cart persistence across refreshes ✅
-- [x] Step 5: Complete & demo ✅
+## Steps:
+- [x] 1. Understand files (read index.html & style.css)
+- [x] 2. Create detailed edit plan and get user confirmation
+- [x] 3. Edit index.html hero SVG tspans for S and E (add stroke="#000000" stroke-width="1")\n- [x] 4. Verify change (refresh browser)\n- [x] 5. Complete task with attempt_completion
 
-**JSON features fully implemented! Task complete.**
-
-**Approved by user. Implementing 3 activities with everyday UX.**
